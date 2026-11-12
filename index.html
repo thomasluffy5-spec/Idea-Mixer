@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Idea Mixer</title>
+  <meta name="description" content="Générateur d'idées de dessin, peinture ou modélisation 3D : décris un début d'idée ou laisse le hasard choisir personnage, créature, décor, objet ou scène.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Polices des thèmes : seules celles réellement affichées sont téléchargées -->
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Cinzel:wght@600;800&family=Fredoka:wght@600&family=IM+Fell+English+SC&family=Orbitron:wght@700;800&family=Pirata+One&family=Rye&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/themes.css">
+
+  <!-- Sans « defer » : applique le thème mémorisé avant l'affichage -->
+  <script src="js/themes.js"></script>
+
+  <!-- Ordre important : données → textes → logique → voix → application -->
+  <script src="js/data.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/generator.js" defer></script>
+  <script src="js/voice.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <!-- Formes décoratives du thème (fond fixe, purement visuel) -->
+  <div class="deco" aria-hidden="true"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div>
+
+  <header class="top">
+    <b class="logo">Idea Mixer</b>
+    <nav aria-label="Navigation">
+      <a href="#home" data-t="nHome"></a>
+      <a href="#mixer" data-t="nMixer"></a>
+      <a href="#history" data-t="nHist"></a>
+      <a href="pose.html" data-t="nPose"></a>
+      <button class="lang" id="lang" type="button"></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <h1 data-t="h1"></h1>
+      <p data-t="intro"></p>
+    </section>
+
+    <section class="mixer" id="mixer" aria-labelledby="mixer-title">
+
+      <div class="out" id="out">
+        <!-- Point de départ : texte libre ou dictée -->
+        <form class="premise" id="premiseForm">
+          <label for="premise" data-t="premiseLabel"></label>
+          <textarea id="premise" rows="2" data-t-ph="premisePh"></textarea>
+          <div class="premise-actions">
+            <button class="btn ghost mic" id="mic" type="button" aria-pressed="false" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>
+              <span id="micText"></span>
+            </button>
+            <button class="btn" id="expand" type="submit" data-t="expand"></button>
+            <button class="btn ghost" id="surprise" type="button" data-t="inspire"></button>
+          </div>
+          <div class="mic-info" id="micInfo" hidden>
+            <p class="note" id="micNote"></p>
+            <button class="btn ghost sm" id="micAction" type="button" hidden></button>
+            <p class="note engine" id="micEngine">
+              <span data-t="engineLabel"></span>
+              <button type="button" data-engine="native" data-t="engineNative"></button>
+              <button type="button" data-engine="local" data-t="engineLocal"></button>
+            </p>
+          </div>
+        </form>
+
+        <!-- Résultat -->
+        <div class="result" id="result">
+          <h2 class="result-head">
+            <span id="mixer-title" data-t="drawThis"></span>
+            <span class="tag" id="subjectTag"></span>
+            <span class="tag" id="genreTag"></span>
+          </h2>
+          <div class="understood" id="understood" aria-live="polite"></div>
+          <p class="sentence" id="sentence" aria-live="polite"></p>
+          <dl class="lines" id="lines"></dl>
+          <div class="bar">
+            <button class="btn" id="all" type="button" data-t="randAll"></button>
+            <button class="btn ghost" id="copy" type="button" data-t="copy"></button>
+            <a class="btn ghost" id="poseLink" href="pose.html" data-t="poseIt" hidden></a>
+            <button class="btn ghost" id="unlock" type="button" data-t="unlockAll"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Choix du sujet + niveau de détail -->
+      <div class="controls">
+        <div class="control">
+          <span class="control-label" data-t="subjectQ"></span>
+          <div class="seg" id="subjects"></div>
+        </div>
+        <div class="control">
+          <span class="control-label" data-t="detail"></span>
+          <div class="seg small" id="levels"></div>
+        </div>
+      </div>
+      <p class="hint" data-t="hint"></p>
+
+      <!-- Cartes générées par js/app.js -->
+      <h3 class="group-title" data-t="groupSubject"></h3>
+      <div class="tiles" id="tiles-subject" data-group="subject"></div>
+      <h3 class="group-title" data-t="groupDirection"></h3>
+      <div class="tiles" id="tiles-direction" data-group="direction"></div>
+    </section>
+
+    <section class="history" id="history" aria-labelledby="history-title">
+      <h2 id="history-title" data-t="nHist"></h2>
+      <p class="empty" id="hEmpty" data-t="hEmpty"></p>
+      <ul class="hist" id="hList"></ul>
+      <button class="btn ghost" id="hClear" type="button" data-t="hClear"></button>
+    </section>
+  </main>
+</body>
+</html>
